@@ -26,6 +26,7 @@ public abstract class Projectile {
 	protected FixtureDef fdef;
 	protected PolygonShape pshape;
 	protected Canard can;
+	public int num;
 	
 	public Projectile(Jeu jeu, World monde, PlayScreen screen, Canard can, int TailleX, int TailleY, float PosX, float PosY) {
 		this.can = can;
@@ -51,7 +52,13 @@ public abstract class Projectile {
 		fdef.shape = pshape;
 		fdef.filter.categoryBits = screen.BITOBJET;
 		fdef.filter.maskBits = (short) (screen.BITGROUND | screen.BITPLAYER);
-		body.createFixture(fdef).setUserData(this.getClass().getSimpleName());
+		if (screen.IdProjectiles<=9) {
+			body.createFixture(fdef).setUserData(this.getClass().getSimpleName() + "Proj" + "0" + screen.IdProjectiles);
+		}
+		else {
+			body.createFixture(fdef).setUserData(this.getClass().getSimpleName() + "Proj" + screen.IdProjectiles);
+		}
+		this.num = screen.IdProjectiles;
 		
 	}
 	
@@ -60,5 +67,9 @@ public abstract class Projectile {
 	public abstract void setAnimation();
 	
 	public abstract void update();
+	
+	public void Dispose() {
+		monde.destroyBody(body);
+	}
 
 }

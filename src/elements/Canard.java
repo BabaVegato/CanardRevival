@@ -50,7 +50,6 @@ public class Canard extends Sprite{
 	}
 
 	public void fire() {
-		
 	}
 	public void render(SpriteBatch sb) {
 		sb.draw(animation.getFrame(), body.getPosition().x-14, body.getPosition().y-15, 30, 30);

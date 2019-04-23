@@ -17,7 +17,8 @@ import states.PlayScreen;
 public abstract class Objet {
 	
 	protected Animation animation;
-	public Body body;
+	public Body body1;
+	public Body body2;
 	protected Jeu jeu;
 	protected int TailleX, TailleY;
 	protected World monde;
@@ -43,7 +44,7 @@ public abstract class Objet {
 		bdef = new BodyDef();
 		bdef.position.set(PosX, PosY);
 		bdef.type = BodyDef.BodyType.StaticBody;
-		body = monde.createBody(bdef);
+		body1 = monde.createBody(bdef);
 		fdef = new FixtureDef();
 		
 		fdef = new FixtureDef();
@@ -54,7 +55,7 @@ public abstract class Objet {
 		fdef.isSensor = true;
 		fdef.filter.categoryBits = screen.BITOBJET;
 		fdef.filter.maskBits = (short) (screen.BITPLAYER | screen.BITGROUND);
-		body.createFixture(fdef).setUserData(this.getClass().getSimpleName());
+		body1.createFixture(fdef).setUserData(this.getClass().getSimpleName());
 		
 	}
 	

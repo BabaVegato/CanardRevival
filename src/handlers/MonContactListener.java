@@ -17,6 +17,7 @@ public class MonContactListener implements ContactListener{
 	public boolean canard2Ak = false;
 	public boolean canard2Bullet;
 	public boolean canard1Bullet;
+	public int ProjMur = 0;
 	
 	public void beginContact(Contact cont) {
 		Fixture fa = cont.getFixtureA();
@@ -41,16 +42,26 @@ public class MonContactListener implements ContactListener{
 		if((fa.getUserData().equals("Ak47") && fb.getUserData().equals("Canard2")) ||(fb.getUserData().equals("Ak47") && fa.getUserData().equals("Canard2"))) {
 			canard2Ak = true;
 		}
-		//Bullet
-		if((fa.getUserData().equals("Canard1") && fb.getUserData().equals("Bullet")) ||(fb.getUserData().equals("Canard1") && fa.getUserData().equals("Bullet"))) {
+		//Bullet VS Canard
+		if((fa.getUserData().equals("Canard1") && fb.getUserData().toString().startsWith("Bullet")) ||(fb.getUserData().equals("Canard1") && fa.getUserData().toString().startsWith("Bullet"))) {
 			canard1Bullet = true;
 			System.out.println("Ouch !");
 		}
-		if((fa.getUserData().equals("Canard2") && fb.getUserData().equals("Bullet")) ||(fb.getUserData().equals("Canard2") && fa.getUserData().equals("Bullet"))) {
+		if((fa.getUserData().equals("Canard2") && fb.getUserData().toString().startsWith("Bullet")) ||(fb.getUserData().equals("Canard2") && fa.getUserData().toString().startsWith("Bullet"))) {
 			canard2Bullet = true;
 			System.out.println("Ouch !");
 			
 		}
+		//Projectile VS Mur
+		if((fa.getUserData().equals("Mur") && fb.getUserData().toString().contains("Proj"))) {
+			ProjMur = Integer.parseInt(fb.getUserData().toString().subSequence(fb.getUserData().toString().length()-2, fb.getUserData().toString().length()).toString());
+			System.out.println(ProjMur);
+		}
+		else if((fb.getUserData().equals("Mur") && fa.getUserData().toString().contains("Proj"))) {
+			ProjMur = Integer.parseInt(fa.getUserData().toString().subSequence(fa.getUserData().toString().length()-2, fa.getUserData().toString().length()).toString());
+			System.out.println(ProjMur);
+		}
+		
 	}
 
 	public void endContact(Contact cont) {

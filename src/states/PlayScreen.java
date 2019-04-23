@@ -59,6 +59,7 @@ public class PlayScreen implements Screen{
 	private BitmapFont font = new BitmapFont();
 	private int ParaVie;
 	private int randposAk;
+	public int IdProjectiles;
 
 	public PlayScreen(final Jeu game, int ScoreJ1, int ScoreJ2, int ParaVie) {
 		this.ScoreJ1 = ScoreJ1;
@@ -67,16 +68,19 @@ public class PlayScreen implements Screen{
 		this.ParaVie = ParaVie;
 		
 		randposAk = ThreadLocalRandom.current().nextInt(-100, 100 + 1);
+		IdProjectiles = 000;
 		
 		Monde = new World(new Vector2(0, -20.81f), true);
 		
 		this.stage = new Stage(new FitViewport(game.V_width, game.V_height, Jeu.cam));
 		
+		//Sons
 		Jump = game.assets.get("Assets/Jumpsound.wav");
 		Bgm = game.assets.get("Assets/MarioDubstep.mp3");
 		Bgm.setVolume(0.01f);
 		hurt = game.assets.get("Assets/Hurtsound.wav");
 		
+		//Setup
 		batch = new SpriteBatch();
 		debugR = new Box2DDebugRenderer();
 		this.game = game;
@@ -87,6 +91,7 @@ public class PlayScreen implements Screen{
 		contList = new MonContactListener();
 		Monde.setContactListener(contList);
 		
+		//Decors
 		decors = new ArrayList<Decors>();
 		
 		sol = new Sol(game, Monde, this, 100, 35, 250, 200);
@@ -97,6 +102,7 @@ public class PlayScreen implements Screen{
 		mur = new Mur(game, Monde, this, 10, 10, 300, 245);
 		decors.add(mur);
 		
+		//Objets
 		objets = new ArrayList<Objet>();
 		objets.add(new Ak47(game, Monde, this, 8, 5, 250+randposAk, 280));
 		objets.add(new Epee(game, Monde, this, 10, 10, 200, 280));
@@ -161,11 +167,26 @@ public class PlayScreen implements Screen{
 		
 		handleInput(delta);
 		
+		//Projectiles
 		for(int i = 0; i<projectiles.size(); i++) {
 			projectiles.get(i).update();
 		}
+		handleProjMur();
 	}
 
+
+	private void handleProjMur() {
+		if(contList.ProjMur != 0) {
+			for(int i=0; i<projectiles.size(); i++) {
+				if(projectiles.get(i).num == contList.ProjMur) {
+					projectiles.get(i).Dispose();
+					projectiles.remove(i);
+					contList.ProjMur = 0;
+					return;
+				}
+			}
+		}
+	}
 
 	public void resize(int width, int height) {
 	}
@@ -224,7 +245,7 @@ public class PlayScreen implements Screen{
             	}
            }
            if(contList.canard1Bullet) {
-        	   canardJ1.Vie -= 10;
+        	   canardJ1.Vie -= 4;
         	   hurt.play();
         	   contList.canard1Bullet = false;
         	   System.out.println("Vie de canard 1 : " + canardJ1.Vie);
@@ -277,13 +298,14 @@ public class PlayScreen implements Screen{
             	}
            }
            if(contList.canard2Bullet) {
-        	   canardJ2.Vie -= 10;
+        	   canardJ2.Vie -= 4;
         	   contList.canard2Bullet = false;
         	   hurt.play();
         	   System.out.println("Vie de canard 2 : " + canardJ2.Vie);
            }
            if(canardJ2.body.getPosition().y +30 < 0) canardJ2.Vie = 0;
-           //fin de game
+           
+           //fin de partie
            if(canardJ1.Vie <= 0 ) {
         	   System.out.println("CanardJ2 a gagné !");
         	   ScoreJ2 += 1;

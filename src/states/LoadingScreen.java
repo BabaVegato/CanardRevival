@@ -37,7 +37,7 @@ public class LoadingScreen implements Screen{
 	private void update(float delta) {
 		progress = MathUtils.lerp(progress, jeu.assets.getProgress(), .1f);
         if (jeu.assets.update() && progress >= jeu.assets.getProgress() - .001f) {
-        	jeu.setScreen(new PlayScreen(jeu, 0, 0, 1));
+        	jeu.setScreen(new PlayScreen(jeu, 0, 0, 10));
         	
         }
 	}
