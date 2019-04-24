@@ -22,30 +22,45 @@ public class Canard extends Sprite{
 	private Jeu jeu;
 	public boolean Droite;
 	public String state;
+	public FixtureDef fdef;
+	private PolygonShape pshape;
+	private BodyDef bdef;
 
 	public Canard(Jeu jeu, World monde, PlayScreen screen, int TailleX, int TailleY, int PosX, int PosY, int numPlayer, int Vie) {
 		this.state = "Vivant";
 		this.Vie = Vie;
 		this.jeu = jeu;
-		BodyDef bdef = new BodyDef();
+		
+		bdef = new BodyDef();
 		bdef.position.set(PosX, PosY);
 		bdef.type = BodyDef.BodyType.DynamicBody;
 		bdef.fixedRotation = true;
 		body = monde.createBody(bdef);
-		FixtureDef fdef = new FixtureDef();
-		PolygonShape pshape = new PolygonShape();
+		
+		//Fixture corps
+		fdef = new FixtureDef();
+		pshape = new PolygonShape();
 		pshape.setAsBox(TailleX, TailleY);
 		fdef.filter.maskBits = (short) (screen.BITGROUND | screen.BITOBJET);
 		fdef.shape = pshape;
 		fdef.density = 1f;
 		fdef.filter.categoryBits = screen.BITPLAYER;
 		body.createFixture(fdef).setUserData("Canard" + numPlayer);
+		//Fixture sensor pieds
+		fdef = new FixtureDef();
+		pshape = new PolygonShape();
+		pshape.setAsBox(TailleX/3, TailleY/3);
+		fdef.filter.maskBits = (short) (screen.BITGROUND | screen.BITOBJET);
+		fdef.shape = pshape;
+		fdef.isSensor = true;
+		fdef.filter.categoryBits = screen.BITPLAYER;
+		body.createFixture(fdef).setUserData("Canard" + numPlayer + "Pieds");
+		
 		Droite = false;
 		
 		text = new Texture[3];
 		setAnimation();
 		SurLeSol = false;
-		
 		
 	}
 

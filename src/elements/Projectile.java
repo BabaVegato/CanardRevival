@@ -35,7 +35,6 @@ public abstract class Projectile {
 		this.monde = monde;
 		this.TailleX = TailleX;
 		this.TailleY = TailleY;
-		this.screen = screen;
 		
 		rdef = new RevoluteJointDef();
 		

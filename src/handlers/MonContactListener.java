@@ -23,7 +23,7 @@ public class MonContactListener implements ContactListener{
 		Fixture fa = cont.getFixtureA();
 		Fixture fb = cont.getFixtureB();
 		//Canard1
-		if((fa.getUserData().equals("Sol") && fb.getUserData().equals("Canard1")) ||(fb.getUserData().equals("Sol") && fa.getUserData().equals("Canard1"))) {
+		if((fa.getUserData().toString().contains("Decors") && fb.getUserData().equals("Canard1")) ||(fb.getUserData().toString().contains("Decors") && fa.getUserData().equals("Canard1"))) {
 			canard1OnGround = true;
 		}
 		if((fa.getUserData().equals("Epee") && fb.getUserData().equals("Canard1")) ||(fb.getUserData().equals("Epee") && fa.getUserData().equals("Canard1"))) {
@@ -33,7 +33,7 @@ public class MonContactListener implements ContactListener{
 			canard1Ak = true;
 		}
 		//Canard2
-		if((fa.getUserData().equals("Sol") && fb.getUserData().equals("Canard2")) ||(fb.getUserData().equals("Sol") && fa.getUserData().equals("Canard2"))) {
+		if((fa.getUserData().toString().contains("Decors") && fb.getUserData().equals("Canard2")) ||(fb.getUserData().toString().contains("Decors") && fa.getUserData().equals("Canard2"))) {
 			canard2OnGround = true;
 		}
 		if((fa.getUserData().equals("Epee") && fb.getUserData().equals("Canard2")) ||(fb.getUserData().equals("Epee") && fa.getUserData().equals("Canard2"))) {
@@ -53,13 +53,11 @@ public class MonContactListener implements ContactListener{
 			
 		}
 		//Projectile VS Mur
-		if((fa.getUserData().equals("Mur") && fb.getUserData().toString().contains("Proj"))) {
+		if((fa.getUserData().toString().contains("Decors") && fb.getUserData().toString().contains("Proj"))) {
 			ProjMur = Integer.parseInt(fb.getUserData().toString().subSequence(fb.getUserData().toString().length()-2, fb.getUserData().toString().length()).toString());
-			System.out.println(ProjMur);
 		}
-		else if((fb.getUserData().equals("Mur") && fa.getUserData().toString().contains("Proj"))) {
+		else if((fb.getUserData().toString().contains("Decors") && fa.getUserData().toString().contains("Proj"))) {
 			ProjMur = Integer.parseInt(fa.getUserData().toString().subSequence(fa.getUserData().toString().length()-2, fa.getUserData().toString().length()).toString());
-			System.out.println(ProjMur);
 		}
 		
 	}
@@ -67,10 +65,10 @@ public class MonContactListener implements ContactListener{
 	public void endContact(Contact cont) {
 		Fixture fa = cont.getFixtureA();
 		Fixture fb = cont.getFixtureB();
-		if((fa.getUserData().equals("Sol") && fb.getUserData().equals("Canard1")) ||(fb.getUserData().equals("Sol") && fa.getUserData().equals("Canard1"))) {
+		if((fa.getUserData().toString().contains("Decors") && fb.getUserData().equals("Canard1")) ||(fb.getUserData().toString().contains("Decors") && fa.getUserData().equals("Canard1"))) {
 			canard1OnGround = false;
 		}
-		if((fa.getUserData().equals("Sol") && fb.getUserData().equals("Canard2")) ||(fb.getUserData().equals("Sol") && fa.getUserData().equals("Canard2"))) {
+		if((fa.getUserData().toString().contains("Decors") && fb.getUserData().equals("Canard2")) ||(fb.getUserData().toString().contains("Decors") && fa.getUserData().equals("Canard2"))) {
 			canard2OnGround = false;
 		}
 	}

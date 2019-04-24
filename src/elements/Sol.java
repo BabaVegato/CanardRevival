@@ -14,26 +14,14 @@ import states.PlayScreen;
 public class Sol extends Decors{
 
 	public Sol(Jeu jeu, World monde, PlayScreen screen, int TailleX, int TailleY, int PosX, int PosY) {
-		BodyDef bdef = new BodyDef();
-		bdef.position.set(PosX, PosY);
-		bdef.type = BodyDef.BodyType.StaticBody;
-		body = monde.createBody(bdef);
-		FixtureDef fdef = new FixtureDef();
-		PolygonShape pshape = new PolygonShape();
-		pshape.setAsBox(TailleX, TailleY);
-		
-		fdef.shape = pshape;
-		fdef.filter.categoryBits = screen.BITGROUND;
-		fdef.filter.maskBits = (short) (screen.BITPLAYER | screen.BITOBJET);
-		body.createFixture(fdef).setUserData("Sol");
+		super(jeu, monde, screen, TailleX, TailleY, PosX, PosY);
 		
 		text = new Texture[1];
 		text[0] = jeu.assets.get("Assets/sol.png");
 		
-		animation = new Animation(text, 10);
 	}
 	public void render(SpriteBatch sb) {
-		sb.draw(animation.getFrame(), body.getPosition().x-100, body.getPosition().y-162, 200, 200);
-		animation.update(1);
+		sb.draw(text[0], body.getPosition().x-100, body.getPosition().y-162, 200, 200);
+
 	}
 }
